@@ -22,7 +22,7 @@ const MessagePreview = () => {
         setSuggestedMessages([]);
 
         try {
-            const response = await fetch("http://localhost:5000/api/suggestions", {
+            const response = await fetch("https://aiagent-n742.onrender.com/api/suggestions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
