@@ -1,4 +1,3 @@
-// src/components/MessagePreview.jsx
 import React, { useState } from "react";
 
 const MessagePreview = () => {
@@ -23,22 +22,23 @@ const MessagePreview = () => {
         setSuggestedMessages([]);
 
         try {
-            const response = await fetch("/api/suggestions", {
+            const response = await fetch("http://localhost:5000/api/suggestions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
             });
-            
 
             if (!response.ok) {
-                throw new Error("Failed to fetch suggestions. Please try again.");
+                throw new Error("Failed to fetch suggestions. Try again.");
             }
 
             const data = await response.json();
-            setSuggestedMessages(data.messages || []);
+            console.log("API Response:", data); // Debug the response
+            setSuggestedMessages(data.suggestions || []);
         } catch (err) {
+            console.error("Error:", err.message);
             setError(err.message);
         } finally {
             setIsLoading(false);
@@ -110,7 +110,8 @@ const MessagePreview = () => {
                                 key={index}
                                 className="p-4 border rounded-lg shadow hover:shadow-md transition-all bg-gray-100"
                             >
-                                <p className="text-gray-700">{message}</p>
+                                <h4 className="font-bold">{message.subject}</h4>
+                                <p className="text-gray-700">{message.content}</p>
                             </div>
                         ))}
                     </div>
